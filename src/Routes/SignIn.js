@@ -6,24 +6,63 @@ import { RegisterAction } from '../actions/RegisterAction'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../context/UserContext'
 
-
 export const SignIn = () => {
     
     const [showForm, setShowForm] = useState(true);
     
     return (
-        <>
-            <ButtonSignIn href='#' onClick={()=>setShowForm(true)}>Sign in</ButtonSignIn>
-            <ButtonSignUp href='#' onClick={()=>setShowForm(false)}>Sign up</ButtonSignUp>
+        <ContainerForms>
+            <ContainerSwitchs>
+                <ButtonSwitch href='#' onClick={()=>setShowForm(true)}>Sign in</ButtonSwitch>
+                <ButtonSwitch href='#' onClick={()=>setShowForm(false)}>Sign up</ButtonSwitch>
+            </ContainerSwitchs> 
+            
             {
                 showForm?
                 <ComponentSignIn/>
                 :
                 <ComponentSignUp/>
             }        
-        </>
+        </ContainerForms>
     )
 }
+const ContainerForms=styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:55%;
+    height:60vh;
+    margin:0 auto;
+    border:1px solid black;
+    margin-top:2rem;
+    margin-bottom:2rem;
+    background-color:#ECECEC;
+`
+const ContainerSwitchs=styled.div`
+    display:flex;
+    width:40%;
+    height:auto;
+    align-items: center;
+    margin-top:0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom:0.5rem;
+`
+const ButtonSwitch=styled.a`
+background-color: #D9D9D9; /* Green */
+  border: none;
+  color: black;
+  padding: 5px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius:1px;
+    :focus{
+        background-color:#FFFFFF;
+        box-shadow:rgba(0, 1, 0, 0.5) 0px 3px;
+    }
+`
+
 
 //  sign up 
 function ComponentSignUp() {
@@ -63,23 +102,25 @@ function ComponentSignUp() {
     }
     
     return (
-            <FormSignUp onSubmit={handleSubmit(onSubmit)}>
-                <input type='email' placeholder='email' 
+            <FormSign onSubmit={handleSubmit(onSubmit)}>
+                <h3>Sign up</h3>
+                <FormInput type='email' placeholder='email' 
                     name='email' {...register("email", {required:true})}/>
                 {errors.name&&<span>This field is required</span>}
                 
-                <input type='text' placeholder='username' 
+                <FormInput type='text' placeholder='username' 
                     name='username' {...register("username", {required:true})}/>
                 {errors.name&&<span>This field is required</span>}
 
-                <input type='password' placeholder='password' 
+                <FormInput type='password' placeholder='password' 
                     name='password' {...register("password", {required:true})}/>
                 {errors.name&&<span>This field is required</span>}
                 
-                <input type='submit'/>
-            </FormSignUp>
+                <FormInputSend type='submit' value='Sign Up'/>
+            </FormSign>
     )
 }
+
 
 // sign in 
 function ComponentSignIn() {
@@ -108,47 +149,53 @@ function ComponentSignIn() {
         }
     }
     return (
-        <FormSignIn onSubmit={handleSubmit(onSubmit)}>
-            
-            <input type='email' placeholder='email' 
+        <FormSign onSubmit={handleSubmit(onSubmit)}>
+            <h3>Sign in</h3>
+            <FormInput type='email' placeholder='email' 
             name='email' {...register("email", {required:true})}/>
             {errors.name&&<span>This field is required</span>}
 
-            <input type='password' placeholder='password' 
+            <FormInput type='password' placeholder='password' 
             name='password' {...register("password", {required:true})}/>
             {errors.name&&<span>This field is required</span>}
             
-            <input type='submit'/>
+            <FormInputSend type='submit' value='Sign In'/>
 
-        </FormSignIn>
+        </FormSign>
     )
 }
-
-const ButtonSignIn=styled.a`
-background-color:blue;
-    :focus{
-        background-color:red;
-    }
-`
-
-const ButtonSignUp=styled.a`
-background-color:blue;
-    :focus{
-        background-color:red;
-    }
-`
-
-const FormSignUp=styled.form`
+const FormSign=styled.form`
     display:flex;
     flex-direction:column;
     width:75%;
+    height:100%;
     align-items: center;
-
+    justify-content: flex-start;
+    gap: 24px;
+    margin: auto 0;
 `
 
-const FormSignIn=styled.form`
-    display:flex;
-    flex-direction:column;
-    width:75%;
-    align-items: center;
+
+
+const FormInput=styled.input`
+/* padding: 15px 45px; */
+text-align: left;
+width:75%; height:12%;
+
+border-radius:5px;
+border:0.1px solid black;
 `
+const FormInputSend=styled.input`
+ background-color: #D9D9D9; /* Green */
+  border: none;
+  color: black;
+  width:75%; height:12%;
+  text-align: center;
+  border-radius:5px;
+  font-size: 24px;
+  cursor:pointer;
+  :hover{
+    background-color:#FFFFFF;
+  }
+`
+

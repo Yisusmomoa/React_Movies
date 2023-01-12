@@ -1,6 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import { SignIn } from '../Routes/SignIn';
+import { Home } from '../Routes/Home';
+import { Profile } from '../Routes/Profile';
+import { MovieDetail } from '../Routes/MovieDetail';
 
 const router=createBrowserRouter(
     [
@@ -10,11 +13,11 @@ const router=createBrowserRouter(
             children:[
                 {
                     index:true,
-                    element:<h1>Home</h1>
+                    element:<Home/>
                 },
                 {
                     path:'/home',
-                    element:<h1>Home</h1>
+                    element:<Home/>
                 },
                 {
                     path:'/signIn',
@@ -22,11 +25,15 @@ const router=createBrowserRouter(
                 },
                 {
                     path:'/movie/:id',
-                    element:<h1>movie</h1>
+                    element:<MovieDetail/>
                 },
                 {
                     path:'/profile',
-                    element:<h1>Profile</h1>
+                    element:<Profile/>
+                },
+                {
+                    path:'/bookmarks',
+                    element:<h1>bookmarks</h1>
                 }
             ]
         }
