@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import { RegisterAction } from '../actions/RegisterAction'
 import { useNavigate } from 'react-router-dom'
+import UserContext from '../context/UserContext'
 
 
 export const SignIn = () => {
@@ -82,11 +83,43 @@ function ComponentSignUp() {
 
 // sign in 
 function ComponentSignIn() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate()
+    const {login}=useContext(UserContext)
+    const onSubmit=async (userInfo)=>{
+        Swal.fire({
+            icon: 'info',
+            title: 'Loading...',
+            didOpen: () =>{
+              Swal.showLoading();
+            }
+        })
+        if (await login(userInfo)) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Welcome'
+            }).then(()=>navigate("/"))
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error'
+            })
+        }
+    }
     return (
-        <FormSignIn>
-            <input type='email' placeholder='email'/>
-            <input type='password' placeholder='password'/>
+        <FormSignIn onSubmit={handleSubmit(onSubmit)}>
+            
+            <input type='email' placeholder='email' 
+            name='email' {...register("email", {required:true})}/>
+            {errors.name&&<span>This field is required</span>}
+
+            <input type='password' placeholder='password' 
+            name='password' {...register("password", {required:true})}/>
+            {errors.name&&<span>This field is required</span>}
+            
             <input type='submit'/>
+
         </FormSignIn>
     )
 }
